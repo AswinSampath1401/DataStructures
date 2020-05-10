@@ -52,41 +52,32 @@ template<class T1,class T2,class T3,class T4,class T5,class T6> void deb(T1 e1, 
 
 
 
-void solve(){
-    printf("Hello world \n");
-}
+void solve(ll n){
+    
+    static int c=0;
+    if(n==0)
+    return;
 
-void addEdge(vector<ll>adj[],int u,int v){
-
-    adj[u].push_back(v);
-}
-
-void printGraph(vector<ll> adj[],ll V){
-
-    for(int i=0;i<V;i++)
+    if(n%10==0)
     {
-        cout<<"Edge"<<space<<i<<":";
-        for(auto x:adj[i]){
-            cout<<x<<space;
-        }
-        cout<<endl;
+        cout<<n*pow(10,c)<<endl;
+        return;
+    }
+    else{
+        cout<<(n%10)*pow(10,c)<<space;
+        c++;
+        n/=10;
+        solve(n);
     }
 }
 
 int main(){
     FAST;
-    ll V=5;
-    vector<ll> adj[V];
-
-    addEdge(adj, 0, 1); 
-    addEdge(adj, 0, 4); 
-    addEdge(adj, 1, 2); 
-    addEdge(adj, 1, 3); 
-    addEdge(adj, 1, 4); 
-    addEdge(adj, 2, 3); 
-    addEdge(adj, 3, 4); 
-    printGraph(adj,V);
-    
+    testcase{
+        ll n;
+        cin>>n;
+        solve(n);
+    }
     return 0;
 }
 

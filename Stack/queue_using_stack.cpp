@@ -50,42 +50,72 @@ template<class T1,class T2,class T3,class T4,class T5,class T6> void deb(T1 e1, 
 /// Debug End
 
 
+void enqueue(int data,stack<ll> &s){
 
-
-void solve(){
-    printf("Hello world \n");
+    s.push(data);
 }
 
-void addEdge(vector<ll>adj[],int u,int v){
+void dequeue(stack<ll> &s){
+    stack<ll>temp;
 
-    adj[u].push_back(v);
-}
+    if(s.size()==1){
+        s.pop();
+        return;
+    }
 
-void printGraph(vector<ll> adj[],ll V){
+    if(s.size()==0){
+        cout<<"Empty queue"<<endl;
+        return;
+    }
 
-    for(int i=0;i<V;i++)
-    {
-        cout<<"Edge"<<space<<i<<":";
-        for(auto x:adj[i]){
-            cout<<x<<space;
-        }
-        cout<<endl;
+    while(!s.empty()){
+        temp.push(s.top());
+        s.pop();
+    }
+    temp.pop();
+
+    while(!temp.empty()){
+        s.push(temp.top());
+        temp.pop();
     }
 }
 
-int main(){
-    FAST;
-    ll V=5;
-    vector<ll> adj[V];
+void printqueue(stack<ll> &s){
 
-    addEdge(adj, 0, 1); 
-    addEdge(adj, 0, 4); 
-    addEdge(adj, 1, 2); 
-    addEdge(adj, 1, 3); 
-    addEdge(adj, 1, 4); 
-    addEdge(adj, 2, 3); 
-    addEdge(adj, 3, 4); 
-    printGraph(adj,V);
+    if(s.size()==0)
+    {cout<<"Empty \n";return;}
+    
+    vector<ll>v;
+    while(!s.empty()){
+        v.push_back(s.top());
+        s.pop();
+    }
+    for(auto ele:v){cout<<ele<<space;}
+    cout<<endl;
+
+    for(ll i=v.size()-1;i>=0;i--){
+        s.push(v[i]);
+    }
+
+
+}
+
+int main(){
+    
+    FAST;
+    stack<ll>s;
+
+    enqueue(3,s);
+    enqueue(5,s);
+    enqueue(7,s);
+    printqueue(s);
+    dequeue(s);
+    printqueue(s);
+    dequeue(s);
+    dequeue(s);
+    printqueue(s);
+
+    
     
     return 0;
 }
