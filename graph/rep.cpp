@@ -31,6 +31,9 @@ void solve(){
 
 void addEdge(vl adj[],ll u,ll v){
 
+    if(u>4 || v>4){
+        return ;
+    }
     adj[u].pb(v);
 }
 
@@ -45,17 +48,15 @@ void printGraph(vl adj[],ll V){
 
 int main(){
     FAST;
-    ll V=4;
+    ll V=5;
     vl adj[V];
-
-    addEdge(adj,0,1);
-    addEdge(adj,1,2);
-    addEdge(adj,1,3);
-    addEdge(adj,2,3);
-
-    printGraph(adj,4);
-
-   
-     return 0;
+    
+    addEdge(adj,0,1);addEdge(adj,0,2);addEdge(adj,0,3);addEdge(adj,0,4);
+    addEdge(adj,1,2);addEdge(adj,1,3);addEdge(adj,1,5);
+    addEdge(adj,2,3);addEdge(adj,2,4);addEdge(adj,2,0);
+    addEdge(adj,3,4);addEdge(adj,3,1);addEdge(adj,3,2);
+    addEdge(adj,4,0);addEdge(adj,4,1);addEdge(adj,4,3);addEdge(adj,4,5);
+    printGraph(adj,5);
+    return 0;
 }
 
