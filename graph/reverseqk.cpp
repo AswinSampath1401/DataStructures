@@ -19,7 +19,7 @@ typedef priority_queue<ll,vl,greater<ll>()> pq_ll_min;
 typedef priority_queue<ll> pq_ll_max; 
 typedef stack<ll> s;
 typedef queue<ll> q;
-const int N=5;
+
 
 #define pi 3.141592653589793
 #define PI  acos(-1.0)
@@ -41,48 +41,35 @@ const ll MOD=1e9+7;
 void solve(){
     printf("Hello\n");
 }
-vl g[N];
-
-void addEdge(ll u,ll v){
-    g[u].push_back(v);
-    g[v].push_back(u);
-}
-
-void dfs(){
-
-    vector<bool>visited(N,false);
-    stack<ll>s;
-
-    s.push(0);
-    visited[0]=true;
-
-    while(!s.empty()){
-        ll node = s.top();
-        cout<<node<<space;
-        s.pop();
-
-        for(auto x:g[node]){
-            if(!visited[x]){
-                s.push(x);
-                visited[x]=true;
-            }
-        }
-    }
-}
 
 int main(int argc, char const *argv[])
 {
+    deque<ll>dq;
+    for(ll i=1;i<=6;i++){
+        dq.push_back(10*i);
+    }
 
-    addEdge(0,2);
-    addEdge(0,1);
-    addEdge(1,3);
-    addEdge(2,3);
-    addEdge(3,4);
+    ll k=3;
 
-    dfs();
+    deque<ll>dq2;
 
+    while(k--){
+        ll ele = dq.front();
+        dq.pop_front();
+        dq2.push_back(ele);
+    }
 
+    while(!dq2.empty()){
+        ll ele = dq2.front();
+        dq.push_front(ele);
+        dq2.pop_front();
+    }
     
+    while(!dq.empty()){
+        cout<<dq.front()<<space;
+        dq.pop_front();
+    }
+    cout<<endl;
     return 0;
 }
 

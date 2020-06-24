@@ -1,64 +1,74 @@
-#include<bits/stdc++.h>
-
+#include <bits/stdc++.h>
+#define ll long long
+#define pb push_back
+#define ull unsigned long long
+#define pii pair<int, int>
+#define FAST ios_base::sync_with_stdio(false);cin.tie(NULL); cout.tie(NULL);
  
 using namespace std;
-typedef long long ll;
-const int N=1e5;
-const int W=1e6;
-const int INF=1e9;
-vector<pair<int, int>> g[N];
-int dist[N];
-bool visited[N];
-    
+ 
+const ll INF = 1e18+7;
+ 
+vector<int> adj[100005];
+ 
+map<pii, ll> W;
+ 
+vector<ll> d(100005, INF);
+int p[100005];
+ 
 int main()
 {
-        ll n, m;
-        cin>>n>>m;
-        assert(2<=n && n<=N);
-        for(int i = 0; i < n; ++i) g[i].clear();
-        for(int i = 0; i < m; i++)
-        {
-            ll v, u, w;
-            cin>>v>>u>>w;
-            assert(1 <= v && v <= n);
-            assert(1 <= u && u <= n);
-            assert(1 <= w && w <= W);
-            --v; --u;
-            g[v].push_back({u, w});
-            g[u].push_back({v, w});
-        }
-        int s;
-        scanf("%d", &s);
-        --s;
-        
-        fill(dist, dist + n, INF);
-        fill(visited, visited + n, 0);
-        dist[s] = 0;
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> q;
-        q.push({0, s});
-        while(!q.empty())
-        {
-            int v = q.top().second;
-            int d = q.top().first;
-            q.pop();
-            if(visited[v]) continue;
-            visited[v] = 1;
-            for(auto it: g[v])
-            {
-                int u = it.first;
-                int w = it.second;
-                if(dist[v] + w < dist[u])
-                {
-                    dist[u] = dist[v] + w;
-                    q.push({dist[u], u});
-                }
-            }
-        }
-        for(int i = 0; i < n; ++i)
-        {
-            if(i == s) continue;
-            printf("%d ", (dist[i] != INF ? dist[i] : -1));
-        }
-        printf("\n");
+    FAST
+    
+    int n, m; cin >> n >> m;
+    
+    for(int i = 0; i < m; i++)
+    {
+		int u,v,w; cin >> u >> v >> w;
+		u--; v--;
+		adj[u].pb(v);
+		adj[v].pb(u);
+		
+		W[{u,v}] = w;
+		W[{v,u}] = w;
+	}
+	
+	priority_queue<pii, vector<pii>, greater<pii>> q;
+	
+	d[n-1] = 0;
+	p[n-1] = -1;
+	
+	q.push({d[n-1], n-1});
+	
+	while(!q.empty())
+	{
+		int u = q.top().second;
+		q.pop();
+		
+		for(int v : adj[u])
+		{
+			if(d[v] > d[u] + W[{u,v}])
+			{
+				p[v] = u;
+				d[v] = d[u] + W[{u,v}];
+				q.push({d[v], v});
+			}
+		}
+		
+	}
+	
+	if(d[0] != INF)
+	{
+		int s = 0;
+		while(s != -1)
+		{
+			cout << s +1<< ' ';
+			s = p[s];
+		}
+	}else
+	{
+		cout << -1 << '\n';
+	}
+	
     return 0;
 }

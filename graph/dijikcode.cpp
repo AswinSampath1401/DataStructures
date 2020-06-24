@@ -2,86 +2,78 @@
 using namespace std;
 
 typedef long long ll;
-typedef pair<ll,ll> pl;
-typedef priority_queue<pair<ll,ll>,vector<pair<ll,ll>>,greater<pair<ll,ll>>> pq_pl_min;
-typedef priority_queue<pair<long,long>> pq_ll_max;
+typedef pair<ll,ll> pll;
+typedef priority_queue<pll,vector<pll>,greater<pll>()> pq_ll_min;
 
 
 #define space " "
 #define endl '\n'
-#define F first
-#define S second
+#define FAST {ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);}
 #define pb(x) push_back(x)
 #define mp(a,b) make_pair(a,b)
-#define FAST ios_base::sync_with_stdio(false);cout.tie(0);cin.tie(0);
-#define testcase ll t;cin>>t;while(t--)
+
 
 const int N=1e5;
-const int INF=1e9;
+const int INF=1e18+7;
 
-vector<pl>g[N+1];
+vector<ll>adj[100005];
+map<pll,ll> W;
+vector<ll>d(100005,INF)
+int p[100005];
 
 
 int main(){
 
+    FAST;
+
     ll n,m;
     cin>>n>>m;
-    assert(2<=n && n<=N);
-    assert(0<=m && m<=N);
 
     for(ll i=0;i<m;i++){
-        ll a,b,w;
-        cin>>a>>b>>w;
 
-        assert(1<=a && a<=n);
-        assert(1<=b && b<=n);
-        assert(1<=w && w<=1e6);
+        ll u,v,w;
+        cin>>u>>v>>w;
+        u--;
+        v--;
 
-        g[a].pb(mp(b,w));
-        g[b].pb(mp(a,w));
+        adj[u].pb(v);
+        adj[v].pb(u);
+
+        W[mp(u,v)]=w;
+        W[mp(v,u)]=w;
+
     }
 
-    pq_pl_min pq;
+    pq_ll_min pq;
 
-    ll s=1;
+    d[n-1]=0;
+    p[n-1]=-1;
 
-    pq.push(mp(0,s));
+    q.push(mp(d[n-1],n-1));
 
-    vector<bool>visited(N,false);
-    vector<long>dist(N,INF);
+    while(!q.empty()){
+        ll u=q.top().second;
+        q.pop();
 
-    dist[s]=0;
+        for(auto v:adj[u]){
+            if(d[v]>d[u]+W[mp(u,v)]){
 
-    while(!pq.empty()){
-
-        ll d = pq.top().F;
-        ll v=pq.top().S;
-
-        pq.pop();
-
-        if(visited[v])continue;
-
-        visited[v]=true;
-
-        for(auto x:g[v]){
-
-            ll u=x.F;
-            ll w=x.S;
-
-
-            if(dist[v]+w<dist[u]){
-                dist[u]=dist[v]+w;
-                pq.push(mp(dist[u],u));
-            }            
+                p[v]=u;
+                d[v]=d[u]+W[mp(u,v)];
+                q.push(mp(d[v],v));
+            }
         }
-
     }
+    if(d[0]!=INF){
 
-    for(ll i=1;i<n;i++){
-        if(i==s)continue;
-        cout<<((dist[i]!=INF)?dist[i]:-1)<<space;
+        ll s=0;
+        while(s!=-1){
+            cout<<s+1<<space;
+            s=p[s];
+        }
     }
-    cout<<endl;
-
+    else{
+        cout<<-1<<endl;
+    }
     return 0;
 }
