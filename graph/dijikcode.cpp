@@ -3,7 +3,7 @@ using namespace std;
 
 typedef long long ll;
 typedef pair<ll,ll> pll;
-typedef priority_queue<pll,vector<pll>,greater<pll>()> pq_ll_min;
+typedef priority_queue<pll,vector<pll>,greater<pll>> pq_ll_min;
 
 
 #define space " "
@@ -18,7 +18,7 @@ const int INF=1e18+7;
 
 vector<ll>adj[100005];
 map<pll,ll> W;
-vector<ll>d(100005,INF)
+vector<ll>d(100005,INF);
 int p[100005];
 
 
@@ -44,7 +44,7 @@ int main(){
 
     }
 
-    pq_ll_min pq;
+    pq_ll_min q;
 
     d[n-1]=0;
     p[n-1]=-1;
