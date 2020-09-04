@@ -41,8 +41,8 @@ void slidemaximum(int arr[],int n,int k){
 
 int main(){
 
-    int a[12]={5,1,2,3,6,4,5,9,7,5,1,9};
-    slidemaximum(a,12,15);
+    int a[12]={1,2,3,4,7,6,8};
+    slidemaximum(a,7,4);
     return 0;
 
 }
